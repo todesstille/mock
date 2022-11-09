@@ -1,5 +1,5 @@
 {
-  "name": "@tanatonaut/mock",
+  "name": "@todesstille/mock",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -16,5 +16,7 @@
   "bugs": {
     "url": "https://github.com/todesstille/mock/issues"
   },
-  "homepage": "https://github.com/todesstille/mock#readme"
+  "homepage": "https://github.com/todesstille/mock#readme",
+  "dependencies": {
+  }
 }

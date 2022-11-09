@@ -37,6 +37,7 @@ contract ERC20Mock {
 
     string private _name;
     string private _symbol;
+    uint8 private _decimals;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
@@ -50,9 +51,10 @@ contract ERC20Mock {
      * All two of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor(string memory name_, string memory symbol_) {
+    constructor(string memory name_, string memory symbol_, uint8 decimals_) {
         _name = name_;
         _symbol = symbol_;
+        _decimals = decimals_;
     }
 
     /**
@@ -84,7 +86,7 @@ contract ERC20Mock {
      * {IERC20-balanceOf} and {IERC20-transfer}.
      */
     function decimals() public view virtual returns (uint8) {
-        return 18;
+        return _decimals;
     }
 
     /**
