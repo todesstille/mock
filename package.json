@@ -1,6 +1,6 @@
 {
   "name": "@todesstille/mock",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,5 @@
     "url": "https://github.com/todesstille/mock/issues"
   },
   "homepage": "https://github.com/todesstille/mock#readme",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
