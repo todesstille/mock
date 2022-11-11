@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "./AggregatorV2V3Interface.sol";
+import "./interface/AggregatorV2V3Interface.sol";
 
 contract ChainlinkPricefeedMock is AggregatorV2V3Interface {
 
