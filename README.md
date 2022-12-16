@@ -1,6 +1,6 @@
 # Mock Contracts library to test with Hardhat
 ## Install
-Create hardhat project
+Create hardhat project  
 Add this package with npm or yarn
 #### Inside test script:
 ```
@@ -19,7 +19,7 @@ Create Factory contract:
 ```
 factory = await mock.getUniswapV2(admin.address);
 ```
-Create pair contract with factory for token1 and token2
+Create pair contract with factory for token1 and token2  
 (The first parameter of the function is factory itself, not its address)
 ```
 token1 = await mock.getERC20("Token1", "TKN1", 18);
