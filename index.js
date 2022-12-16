@@ -6,6 +6,7 @@ exports.Mock = class Mock {
         this.getERC20 = getERC20
         this.getUniswapV2 = getUniswapV2
         this.getUniswapV2Pair = getUniswapV2Pair
+        this.getChainlinkPricefeed = getChainlinkPricefeed
     }
 }
 
@@ -35,4 +36,13 @@ async function getUniswapV2Pair(factory, token1, token2) {
     await factory.createPair(token1, token2)
     pair = await ethers.getContractAt(json.abi, pairAddress, owner);
     return pair
+}
+
+async function getChainlinkPricefeed(decimals, description, version, price) {
+    ethers = this.ethers;
+    json = require('./.artifacts/ChainlinkPricefeedMock.json')
+    const [owner] = await ethers.getSigners()
+    Pricefeed = await ethers.getContractFactory(json.abi, json.bytecode, owner);
+    pricefeed = await Pricefeed.deploy(decimals, description, version, price)
+    return pricefeed
 }
