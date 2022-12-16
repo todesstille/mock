@@ -33,6 +33,6 @@ async function getUniswapV2Pair(factory, token1, token2) {
     const [owner] = await ethers.getSigners()
     pairAddress = await factory.callStatic.createPair(token1, token2)
     await factory.createPair(token1, token2)
-    pair = await ethers.getContractAt(json.abi, pair, owner);
-    return factory
+    pair = await ethers.getContractAt(json.abi, pairAddress, owner);
+    return pair
 }
