@@ -5,7 +5,7 @@ Add this package with npm or yarn
 #### Inside test script:
 ```
 const {ethers} = require('hardhat')
-const Mock = require('@todesstille/mock')
+const {Mock} = require('@todesstille/mock')
 const mock = new Mock(ethers)
 ```
 ## Usage
