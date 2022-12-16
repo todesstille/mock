@@ -14,6 +14,13 @@ const mock = new Mock(ethers)
 erc20 = await mock.getERC20(name, symbol, decimals) // Creates contract instance
 await erc20.mint(address) // Mint tokens to any address you need
 ```
+### Chainlink Pricefeed
+```
+pricefeed = await mock.getChainlinkPricefeed(decimals, description, version, price)
+await pricefeed.updateOracle(newPrice)
+await pricefeed.latestAnswer()
+
+```
 ### UniswapV2
 Create Factory contract:
 ```
