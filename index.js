@@ -46,7 +46,7 @@ async function getWeth9() {
     json = require('./.artifacts/WETH9.json')
     const [owner] = await ethers.getSigners()
     Weth9 = await ethers.getContractFactory(json.abi, json.bytecode, owner);
-    weth = await Weth.deploy();
+    weth = await Weth9.deploy();
     return weth
 }
 
