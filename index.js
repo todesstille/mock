@@ -35,13 +35,8 @@ async function getUniswapV2Pair(factory, token1, token2) {
     ethers = this.ethers;
     json = require('./.artifacts/UniswapV2Pair.json')
     const [owner] = await ethers.getSigners()
-    pairAddress = await factory.getPair(token1.address, token2.address);
-    if (pairAddress === ethers.constants.AddressZero) {
-        pairAddress = await factory.callStatic.createPair(token1, token2)
-        await factory.createPair(token1, token2)
-        pair = await ethers.getContractAt(json.abi, pairAddress, owner);
-        return pair    
-    }
+    pairAddress = await factory.callStatic.createPair(token1, token2)
+    await factory.createPair(token1, token2)
     pair = await ethers.getContractAt(json.abi, pairAddress, owner);
     return pair
 }
