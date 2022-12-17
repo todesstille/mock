@@ -35,6 +35,7 @@ async function getUniswapV2Pair(factory, token1, token2) {
     ethers = this.ethers;
     json = require('./.artifacts/UniswapV2Pair.json')
     const [owner] = await ethers.getSigners()
+    console.log("TEST")
     pairAddress = await factory.getPair(token1.address, token2.address)
     console.log(pairAddress)
     if (pairAddress === "0x0000000000000000000000000000000000000000" ) {
