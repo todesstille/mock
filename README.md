@@ -1,4 +1,4 @@
-# Mock Contracts library to test with Hardhat
+# Mock Kit for Hardhat tests
 ## Install
 Create hardhat project  
 Add this package with npm or yarn
