@@ -21,13 +21,21 @@ await pricefeed.updateOracle(newPrice)
 await pricefeed.latestAnswer()
 
 ```
+### Wrapped Ether
+```
+weth = await mock.getWeth9();
+```
 ### UniswapV2
-Create Factory contract:
+Create Router, Factory and Weth9 simultaniously:
 ```
-factory = await mock.getUniswapV2(admin.address);
+[router, factory, weth] = await mock.getUniswapV2(admin.address);
 ```
-Create pair contract with factory for token1 and token2  
-(The first parameter of the function is factory itself, not its address)
+Only Factory:
+```
+factory = await mock.getUniswapV2Factory(admin.address);
+```
+Pair contract for tokens using factory contract  
+(The first parameter of the function is a factory instance, not its address)
 ```
 token1 = await mock.getERC20("Token1", "TKN1", 18);
 token2 = await mock.getERC20("Token2", "TKN2", 18);
