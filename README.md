@@ -34,6 +34,10 @@ Only Factory:
 ```
 factory = await mock.getUniswapV2Factory(admin.address);
 ```
+Router, using Factory and WETH instances:
+```
+router = await mock.getUniswapV2Router(factory, WETH)
+```
 Pair contract for tokens using factory contract  
 (The first parameter of the function is a factory instance, not its address)
 ```
