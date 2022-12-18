@@ -1,8 +1,10 @@
 exports.Mock = class Mock {
     ethers
+    signer
 
     constructor(ethers) {
         this.ethers = ethers
+
         this.getERC20 = getERC20
         this.getUniswapV2 = getUniswapV2
         this.getUniswapV2Factory = getUniswapV2Factory
@@ -10,6 +12,7 @@ exports.Mock = class Mock {
         this.getUniswapV2Router = getUniswapV2Router
         this.getWeth9 = getWeth9
         this.getChainlinkPricefeed = getChainlinkPricefeed
+        this.getLinkToken = getLinkToken
     }
 }
 
@@ -78,4 +81,13 @@ async function getChainlinkPricefeed(decimals, description, version, price) {
     Pricefeed = await ethers.getContractFactory(json.abi, json.bytecode, owner);
     pricefeed = await Pricefeed.deploy(decimals, description, version, price)
     return pricefeed
+}
+
+async function getLinkToken() {
+    ethers = this.ethers;
+    json = require('./.artifacts/LinkToken.json')
+    const [owner] = await ethers.getSigners()
+    LinkToken = await ethers.getContractFactory(json.abi, json.bytecode, owner);
+    linkToken = await LinkToken.deploy()
+    return linkToken
 }

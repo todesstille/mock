@@ -38,8 +38,7 @@ Router, using Factory and WETH instances:
 ```
 router = await mock.getUniswapV2Router(factory, WETH)
 ```
-Pair contract for tokens using factory contract  
-(The first parameter of the function is a factory instance, not its address)
+Pair contract for tokens using factory instance
 ```
 token1 = await mock.getERC20("Token1", "TKN1", 18);
 token2 = await mock.getERC20("Token2", "TKN2", 18);
