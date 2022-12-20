@@ -1,6 +1,5 @@
 exports.Mock = class Mock {
     ethers
-    signer
 
     constructor(ethers) {
         this.ethers = ethers
@@ -13,6 +12,7 @@ exports.Mock = class Mock {
         this.getWeth9 = getWeth9
         this.getChainlinkPricefeed = getChainlinkPricefeed
         this.getLinkToken = getLinkToken
+        this.getVrfV1 = getVrfV1
     }
 }
 
@@ -90,4 +90,25 @@ async function getLinkToken() {
     LinkToken = await ethers.getContractFactory(json.abi, json.bytecode, owner);
     linkToken = await LinkToken.deploy()
     return linkToken
+}
+
+async function getVrfV1(link) {
+    ethers = this.ethers;
+    json = require('./.artifacts/VRFCoordinatorMock.json')
+    const [owner] = await ethers.getSigners()
+    Coordinator = await ethers.getContractFactory(json.abi, json.bytecode, owner);
+    coordinator = await Coordinator.deploy(link);
+    return {
+        address: coordinator.address,
+        coordinator: coordinator,
+        register: async function(hash, fee) {
+            await this.coordinator.registerProvingKey(fee, hash);
+        },
+        fulfill: async function() {
+            number = Number(await this.coordinator.getStackLength());
+            for (i = 0; i < number; i++) {
+                await this.coordinator.fulfillRequest(1337);
+            }
+        }
+    }
 }
