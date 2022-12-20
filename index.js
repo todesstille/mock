@@ -102,7 +102,7 @@ async function getVrfV1(link) {
         address: coordinator.address,
         coordinator: coordinator,
         register: async function(hash, fee) {
-            await this.coordinator.registerProvingKey(fee, hash);
+            await this.coordinator.registerProvingKey(await ethers.utils.parseUnits(fee, 18), hash);
         },
         fulfill: async function() {
             number = Number(await this.coordinator.getStackLength());
