@@ -107,8 +107,8 @@ async function getVrfV1(link) {
         fulfill: async function() {
             number = Number(await this.coordinator.getStackLength());
             for (i = 0; i < number; i++) {
-                const {random} = require('./random.js')
-                await this.coordinator.fulfillRequest(random());
+                const {randomUint256} = require('./random.js')
+                await this.coordinator.fulfillRequest(randomUint256());
             }
         }
     }
