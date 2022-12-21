@@ -1,4 +1,4 @@
-export function randomUint256() {
+exports.randomUint256 = function randomUint256() {
     r = ""
     for (i = 0; i < 64; i++) {
         l = Math.floor(Math.random() * 16)
@@ -10,3 +10,5 @@ export function randomUint256() {
     }
     return "0x" + r;
 }
+
+module.exports
