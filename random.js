@@ -1,7 +1,7 @@
 exports.randomUint256 = function randomUint256() {
-    r = ""
-    for (i = 0; i < 64; i++) {
-        l = Math.floor(Math.random() * 16)
+    let r = ""
+    for (let i = 0; i < 64; i++) {
+        let l = Math.floor(Math.random() * 16)
         if (l < 10) {
             r += l.toString();
         } else {
