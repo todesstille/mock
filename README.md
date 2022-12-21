@@ -52,7 +52,7 @@ keyhash = "0xAA77729D3466CA35AE8D28B3BBAC7CC36A5031EFDC430821C02BC31A238AF445"
 await coordinator.register(keyhash, "2.0") // (Registered default keyhash for mainnet with price 2 LINK for every request)
 contract = await Contract.depoy(coordinator.address, link.address) // Deploy your contract, implementing VRFConsumerBase.sol
 amount =  await ethers.utils.parseUnits("2.0", 18)
-await link.transfer(rand.address, amount) // Sent 2 LINK to your contract
+await link.transfer(contract.address, amount) // Sent 2 LINK to your contract
 await contract.requestRandomness(keyhash, amount) //request Randomness from VRFCoordinator for 2 LINK
 await coordinator.fulfill() // Reply from VRF oracle to all unparsed requests
 ```
