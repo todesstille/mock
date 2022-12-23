@@ -13,8 +13,11 @@ exports.Mock = class Mock {
         this.getChainlinkPricefeed = getChainlinkPricefeed
         this.getLinkToken = getLinkToken
         this.getVrfV1 = getVrfV1
+        this.getCompoundTimelockV2 = getCompoundTimelockV2
     }
 }
+
+// Erc20
 
 async function getERC20(name, symbol, decimals) {
     ethers = this.ethers;
@@ -24,6 +27,8 @@ async function getERC20(name, symbol, decimals) {
     erc20 = await ERC20.deploy(name, symbol, decimals)
     return erc20
 }
+
+// Uniswap v2
 
 async function getUniswapV2Factory(beneficiary) {
     ethers = this.ethers;
@@ -74,6 +79,8 @@ async function getUniswapV2(beneficiary) {
     return [router, factory, weth]
 }
 
+// Chainlink Pricefeed
+
 async function getChainlinkPricefeed(decimals, description, version, price) {
     ethers = this.ethers;
     json = require('./.artifacts/ChainlinkPricefeedMock.json')
@@ -83,6 +90,8 @@ async function getChainlinkPricefeed(decimals, description, version, price) {
     return pricefeed
 }
 
+// Chainlink Token
+
 async function getLinkToken() {
     ethers = this.ethers;
     json = require('./.artifacts/LinkToken.json')
@@ -91,6 +100,8 @@ async function getLinkToken() {
     linkToken = await LinkToken.deploy()
     return linkToken
 }
+
+// Chainlink VRF1
 
 async function getVrfV1(link) {
     ethers = this.ethers;
@@ -111,5 +122,24 @@ async function getVrfV1(link) {
                 await this.coordinator.fulfillRequest(randomUint256());
             }
         }
+    }
+}
+
+// Compound V2
+
+async function getCompoundTimelockV2(admin, delay) {
+    ethers = this.ethers;
+    json = require('./.artifacts/CompoundV2/Timelock.json')
+    const [owner] = await ethers.getSigners()
+    Timelock = await ethers.getContractFactory(json.abi, json.bytecode, owner)
+    timelock = await Timelock.deploy(admin, delay)
+    return timelock;
+}
+
+async function getCompoundV2() {
+    const [owner] = await ethers.getSigners()
+    let timelock = await getCompoundTimelockV2(owner, 172800)
+    return {
+        timelock: timelock,
     }
 }
