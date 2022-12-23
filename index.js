@@ -13,6 +13,7 @@ exports.Mock = class Mock {
         this.getChainlinkPricefeed = getChainlinkPricefeed
         this.getLinkToken = getLinkToken
         this.getVrfV1 = getVrfV1
+        this.getCompoundV2 = getCompoundV2
         this.getCompoundTimelockV2 = getCompoundTimelockV2
     }
 }
