@@ -139,7 +139,7 @@ async function getCompoundTimelockV2(admin, delay) {
 
 async function getCompoundV2() {
     const [owner] = await ethers.getSigners()
-    let timelock = await getCompoundTimelockV2(owner, 172800)
+    let timelock = await getCompoundTimelockV2(owner.address, 172800)
     return {
         timelock: timelock,
     }
