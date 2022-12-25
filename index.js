@@ -130,6 +130,9 @@ async function getVrfV1(link) {
 
 // Compound V2
 
+/**
+ * @deprecated Since version 1.3.10. Will be deleted in next version.
+ */
 async function getCompoundTimelockV2(admin, delay) {
     ethers = this.ethers;
     let json = require('./.artifacts/CompoundV2/Timelock.json')
@@ -139,6 +142,9 @@ async function getCompoundTimelockV2(admin, delay) {
     return timelock;
 }
 
+/**
+ * @deprecated Since version 1.3.10. Will be deleted in next version.
+ */
 async function getCompoundUnitrollerV2() {
     ethers = this.ethers;
     let json = require('./.artifacts/CompoundV2/Unitroller.json')
@@ -148,6 +154,9 @@ async function getCompoundUnitrollerV2() {
     return unitroller;
 }
 
+/**
+ * @deprecated Since version 1.3.10. Will be deleted in next version.
+ */
 async function getCompoundComptrollerV2() {
     ethers = this.ethers;
     let json = require('./.artifacts/CompoundV2/Comptroller.json')
@@ -157,6 +166,9 @@ async function getCompoundComptrollerV2() {
     return comptroller;
 }
 
+/**
+ * @deprecated Since version 1.3.10. Will be deleted in next version.
+ */
 async function getCompoundOracleMock() {
     ethers = this.ethers;
     let json = require('./.artifacts/CompoundV2/CompoundOracleMock.json')
@@ -166,6 +178,9 @@ async function getCompoundOracleMock() {
     return oracle;
 }
 
+/**
+ * @deprecated Since version 1.3.10. Will be deleted in next version.
+ */
 async function getInterestRateModel() {
     ethers = this.ethers;
     let json = require('./.artifacts/CompoundV2/WhitePaperInterestRateModel.json')
@@ -175,6 +190,9 @@ async function getInterestRateModel() {
     return interest;
 }
 
+/**
+ * @deprecated Since version 1.3.10. Will be deleted in next version.
+ */
 async function getCEther(comptrollerAddress, interestRateModelAddress) {
     ethers = this.ethers;
     let json = require('./.artifacts/CompoundV2/CEther.json')
@@ -184,6 +202,10 @@ async function getCEther(comptrollerAddress, interestRateModelAddress) {
     return cEther;
 
 }
+
+/**
+ * @deprecated Since version 1.3.10. Will be deleted in next version.
+ */
 
 async function getCToken(comptrollerAddress, interestRateModelAddress, assetAddress) {
     ethers = this.ethers;
@@ -195,6 +217,9 @@ async function getCToken(comptrollerAddress, interestRateModelAddress, assetAddr
 
 }
 
+/**
+ * @deprecated Since version 1.3.10. Will be deleted in next version.
+ */
 async function getCompoundV2() {
     const [owner] = await ethers.getSigners()
     let timelock = await getCompoundTimelockV2(owner.address, 172800)

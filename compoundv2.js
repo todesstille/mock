@@ -9,11 +9,6 @@ exports.createNewCompoundV2 = async function createNewCompoundV2(ethers) {
     let json = require('./.artifacts/CompoundV2/Comptroller.json')
     let unitroller = await ethers.getContractAt(json.abi, compProxy.address, owner);
     let interestRate = await getInterestRateModel(ethers);
-    //let cEther = await getCEther(ethers, unitroller.address, interestRate.address)
-    await unitroller._supportMarket(cEther.address)
-    // let USDC = await getERC20("USD Coin", "USDC", 6);
-    // let cUSDC = await getCToken(unitroller.address, interestRate.address, USDC.address)
-    await unitroller._supportMarket(cEther.address)
     return {
         _ethers: ethers,
         timelock: timelock,
@@ -25,6 +20,7 @@ exports.createNewCompoundV2 = async function createNewCompoundV2(ethers) {
             const [owner] = await this._ethers.getSigners()
             CEther = await this._ethers.getContractFactory(json.abi, json.bytecode, owner)
             cEther = await CEther.deploy(this.unitroller.address, this.interestRate.address, BigInt("200000000000000000000000000"), "Compound Ether", "cEth", 8)
+            await this.unitroller._supportMarket(cEther.address)
             return cEther;
         
         },
@@ -33,6 +29,7 @@ exports.createNewCompoundV2 = async function createNewCompoundV2(ethers) {
             const [owner] = await this._ethers.getSigners()
             CErc20 = await this._ethers.getContractFactory(json.abi, json.bytecode, owner)
             cErc20 = await CErc20.deploy(token.address, this.unitroller.address, this.interestRate.address, BigInt("200000000000000"), "Compound " + await token.name(), "c" + await token.symbol(), 8)
+            await this.unitroller._supportMarket(cErc20.address)
             return cErc20;
         
         }
