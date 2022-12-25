@@ -221,6 +221,6 @@ async function getCompoundV2() {
 }
 
 async function createCompoundV2() {
-    const {createNewCompoundV2} = require('compoundv2.js');
+    const {createNewCompoundV2} = require('./compoundv2.js');
     return createNewCompoundV2(ethers);
 }
