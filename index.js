@@ -167,7 +167,7 @@ async function getCompoundOracleMock() {
 
 async function getInterestRateModel() {
     ethers = this.ethers;
-    let json = require('./.artifacts/CompoundV2/InterestRateModel.json')
+    let json = require('./.artifacts/CompoundV2/WhitePaperInterestRateModel.json')
     const [owner] = await ethers.getSigners()
     Interest = await ethers.getContractFactory(json.abi, json.bytecode, owner)
     interest = await Interest.deploy(0, BigInt("200000000000000000"))
