@@ -15,6 +15,7 @@ exports.Mock = class Mock {
         this.getVrfV1 = getVrfV1
         this.getCompoundV2 = getCompoundV2
         this.getCompoundTimelockV2 = getCompoundTimelockV2
+        this.getCompoundUnitrollerV2 = getCompoundUnitrollerV2
     }
 }
 
@@ -22,7 +23,7 @@ exports.Mock = class Mock {
 
 async function getERC20(name, symbol, decimals) {
     ethers = this.ethers;
-    json = require('./.artifacts/ERC20Mock.json')
+    let json = require('./.artifacts/ERC20Mock.json')
     const [owner] = await ethers.getSigners()
     ERC20 = await ethers.getContractFactory(json.abi, json.bytecode, owner);
     erc20 = await ERC20.deploy(name, symbol, decimals)
@@ -33,7 +34,7 @@ async function getERC20(name, symbol, decimals) {
 
 async function getUniswapV2Factory(beneficiary) {
     ethers = this.ethers;
-    json = require('./.artifacts/UniswapV2Factory.json')
+    let json = require('./.artifacts/UniswapV2Factory.json')
     const [owner] = await ethers.getSigners()
     Factory = await ethers.getContractFactory(json.abi, json.bytecode, owner);
     factory = await Factory.deploy(beneficiary)
@@ -42,7 +43,7 @@ async function getUniswapV2Factory(beneficiary) {
 
 async function getUniswapV2Pair(factory, token1, token2) {
     ethers = this.ethers;
-    json = require('./.artifacts/UniswapV2Pair.json')
+    let json = require('./.artifacts/UniswapV2Pair.json')
     const [owner] = await ethers.getSigners()
     pairAddress = await factory.getPair(token1, token2)
     if (pairAddress === "0x0000000000000000000000000000000000000000" ) {
@@ -57,7 +58,7 @@ async function getUniswapV2Pair(factory, token1, token2) {
 
 async function getWeth9() {
     ethers = this.ethers;
-    json = require('./.artifacts/WETH9.json')
+    let json = require('./.artifacts/WETH9.json')
     const [owner] = await ethers.getSigners()
     Weth9 = await ethers.getContractFactory(json.abi, json.bytecode, owner);
     weth = await Weth9.deploy();
@@ -66,7 +67,7 @@ async function getWeth9() {
 
 async function getUniswapV2Router(factory, WETH) {
     ethers = this.ethers;
-    json = require('./.artifacts/UniswapV2Router02.json')
+    let json = require('./.artifacts/UniswapV2Router02.json')
     const [owner] = await ethers.getSigners()
     Router = await ethers.getContractFactory(json.abi, json.bytecode, owner);
     router = await Router.deploy(factory, WETH);
@@ -84,7 +85,7 @@ async function getUniswapV2(beneficiary) {
 
 async function getChainlinkPricefeed(decimals, description, version, price) {
     ethers = this.ethers;
-    json = require('./.artifacts/ChainlinkPricefeedMock.json')
+    let json = require('./.artifacts/ChainlinkPricefeedMock.json')
     const [owner] = await ethers.getSigners()
     Pricefeed = await ethers.getContractFactory(json.abi, json.bytecode, owner);
     pricefeed = await Pricefeed.deploy(decimals, description, version, price)
@@ -95,7 +96,7 @@ async function getChainlinkPricefeed(decimals, description, version, price) {
 
 async function getLinkToken() {
     ethers = this.ethers;
-    json = require('./.artifacts/LinkToken.json')
+    let json = require('./.artifacts/LinkToken.json')
     const [owner] = await ethers.getSigners()
     LinkToken = await ethers.getContractFactory(json.abi, json.bytecode, owner);
     linkToken = await LinkToken.deploy()
@@ -106,7 +107,7 @@ async function getLinkToken() {
 
 async function getVrfV1(link) {
     ethers = this.ethers;
-    json = require('./.artifacts/VRFCoordinatorMock.json')
+    let json = require('./.artifacts/VRFCoordinatorMock.json')
     const [owner] = await ethers.getSigners()
     Coordinator = await ethers.getContractFactory(json.abi, json.bytecode, owner);
     coordinator = await Coordinator.deploy(link);
@@ -130,17 +131,90 @@ async function getVrfV1(link) {
 
 async function getCompoundTimelockV2(admin, delay) {
     ethers = this.ethers;
-    json = require('./.artifacts/CompoundV2/Timelock.json')
+    let json = require('./.artifacts/CompoundV2/Timelock.json')
     const [owner] = await ethers.getSigners()
     Timelock = await ethers.getContractFactory(json.abi, json.bytecode, owner)
     timelock = await Timelock.deploy(admin, delay)
     return timelock;
 }
 
+async function getCompoundUnitrollerV2() {
+    ethers = this.ethers;
+    let json = require('./.artifacts/CompoundV2/Unitroller.json')
+    const [owner] = await ethers.getSigners()
+    Unitroller = await ethers.getContractFactory(json.abi, json.bytecode, owner)
+    unitroller = await Unitroller.deploy()
+    return unitroller;
+}
+
+async function getCompoundComptrollerV2() {
+    ethers = this.ethers;
+    let json = require('./.artifacts/CompoundV2/Comptroller.json')
+    const [owner] = await ethers.getSigners()
+    Comptroller = await ethers.getContractFactory(json.abi, json.bytecode, owner)
+    comptroller = await Comptroller.deploy()
+    return comptroller;
+}
+
+async function getCompoundOracleMock() {
+    ethers = this.ethers;
+    let json = require('./.artifacts/CompoundV2/CompoundOracleMock.json')
+    const [owner] = await ethers.getSigners()
+    Oracle = await ethers.getContractFactory(json.abi, json.bytecode, owner)
+    oracle = await Oracle.deploy()
+    return oracle;
+}
+
+async function getInterestRateModel() {
+    ethers = this.ethers;
+    let json = require('./.artifacts/CompoundV2/InterestRateModel.json')
+    const [owner] = await ethers.getSigners()
+    Interest = await ethers.getContractFactory(json.abi, json.bytecode, owner)
+    interest = await Interest.deploy(0, BigInt("200000000000000000"))
+    return interest;
+}
+
+async function getCEther(comptrollerAddress, interestRateModelAddress) {
+    ethers = this.ethers;
+    let json = require('./.artifacts/CompoundV2/CEther.json')
+    const [owner] = await ethers.getSigners()
+    CEther = await ethers.getContractFactory(json.abi, json.bytecode, owner)
+    cEther = await CEther.deploy(comptrollerAddress, interestRateModelAddress, BigInt("200000000000000000000000000"), "Compound Ether", "cEth", 8)
+    return interest;
+
+}
+
+async function getCToken(comptrollerAddress, interestRateModelAddress, assetAddress) {
+    ethers = this.ethers;
+    let json = require('./.artifacts/CompoundV2/CERC20.json')
+    const [owner] = await ethers.getSigners()
+    CERC20 = await ethers.getContractFactory(json.abi, json.bytecode, owner)
+    cERC20 = await CEther.deploy(assetAddress, comptrollerAddress, interestRateModelAddress, BigInt("200000000000000"), "Compound USD Coin", "cUSDC", 8)
+    return cERC20;
+
+}
+
 async function getCompoundV2() {
     const [owner] = await ethers.getSigners()
     let timelock = await getCompoundTimelockV2(owner.address, 172800)
+    let compProxy = await getCompoundUnitrollerV2()
+    let compImpl = await getCompoundComptrollerV2()
+    let oracle = await getCompoundOracleMock()
+    await compProxy._setPendingImplementation(compImpl.address)
+    await compImpl._become(compProxy.address, oracle.address, BigInt("0x6f05b59d3b20000"), 20, false)
+    let json = require('./.artifacts/CompoundV2/Comptroller.json')
+    let unitroller = await ethers.getContractAt(json.abi, compProxy.address, owner);
+    let interestRate = await getInterestRateModel();
+    let cEther = await getCEther(unitroller.address, interestRate.address)
+    await unitroller._supportMarket(cEther.address)
+    let USDC = await getERC20("USD Coin", "USDC", 6);
+    let cUSDC = await getCToken(unitroller.address, interestRate.address, USDC.address)
+    await unitroller._supportMarket(cEther.address)
     return {
         timelock: timelock,
+        unitroller: unitroller,
+        oracle: oracle,
+        cEther: cEther,
+        cUSDC: cUSDC
     }
 }
