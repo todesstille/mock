@@ -180,16 +180,16 @@ async function getCEther(comptrollerAddress, interestRateModelAddress) {
     const [owner] = await ethers.getSigners()
     CEther = await ethers.getContractFactory(json.abi, json.bytecode, owner)
     cEther = await CEther.deploy(comptrollerAddress, interestRateModelAddress, BigInt("200000000000000000000000000"), "Compound Ether", "cEth", 8)
-    return interest;
+    return cEther;
 
 }
 
 async function getCToken(comptrollerAddress, interestRateModelAddress, assetAddress) {
     ethers = this.ethers;
-    let json = require('./.artifacts/CompoundV2/CERC20.json')
+    let json = require('./.artifacts/CompoundV2/CErc20.json')
     const [owner] = await ethers.getSigners()
-    CERC20 = await ethers.getContractFactory(json.abi, json.bytecode, owner)
-    cERC20 = await CEther.deploy(assetAddress, comptrollerAddress, interestRateModelAddress, BigInt("200000000000000"), "Compound USD Coin", "cUSDC", 8)
+    CErc20 = await ethers.getContractFactory(json.abi, json.bytecode, owner)
+    cErc20 = await CErc20.deploy(assetAddress, comptrollerAddress, interestRateModelAddress, BigInt("200000000000000"), "Compound USD Coin", "cUSDC", 8)
     return cERC20;
 
 }
