@@ -9,10 +9,10 @@ exports.createNewCompoundV2 = async function createNewCompoundV2(ethers) {
     let json = require('./.artifacts/CompoundV2/Comptroller.json')
     let unitroller = await ethers.getContractAt(json.abi, compProxy.address, owner);
     let interestRate = await getInterestRateModel(ethers);
-    let cEther = await getCEther(ethers, unitroller.address, interestRate.address)
+    //let cEther = await getCEther(ethers, unitroller.address, interestRate.address)
     await unitroller._supportMarket(cEther.address)
-    let USDC = await getERC20("USD Coin", "USDC", 6);
-    let cUSDC = await getCToken(unitroller.address, interestRate.address, USDC.address)
+    // let USDC = await getERC20("USD Coin", "USDC", 6);
+    // let cUSDC = await getCToken(unitroller.address, interestRate.address, USDC.address)
     await unitroller._supportMarket(cEther.address)
     return {
         _ethers: ethers,
