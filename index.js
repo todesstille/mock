@@ -16,6 +16,7 @@ exports.Mock = class Mock {
         this.getCompoundV2 = getCompoundV2
         this.getCompoundTimelockV2 = getCompoundTimelockV2
         this.getCompoundUnitrollerV2 = getCompoundUnitrollerV2
+        this.createCompoundV2 = createCompoundV2
     }
 }
 
@@ -217,4 +218,9 @@ async function getCompoundV2() {
         cEther: cEther,
         cUSDC: cUSDC
     }
+}
+
+async function createCompoundV2() {
+    const {createNewCompoundV2} = require('compoundv2.js');
+    return createNewCompoundV2(ethers);
 }
