@@ -190,7 +190,7 @@ async function getCToken(comptrollerAddress, interestRateModelAddress, assetAddr
     const [owner] = await ethers.getSigners()
     CErc20 = await ethers.getContractFactory(json.abi, json.bytecode, owner)
     cErc20 = await CErc20.deploy(assetAddress, comptrollerAddress, interestRateModelAddress, BigInt("200000000000000"), "Compound USD Coin", "cUSDC", 8)
-    return cERC20;
+    return cErc20;
 
 }
 
