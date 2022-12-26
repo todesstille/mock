@@ -39,6 +39,19 @@ async function getERC20(name, symbol, decimals) {
 
 // Uniswap v2
 
+async function getWeth9() {
+    ethers = this.ethers;
+    let json = require('./.artifacts/WETH9.json')
+    const [owner] = await ethers.getSigners()
+    Weth9 = await ethers.getContractFactory(json.abi, json.bytecode, owner);
+    weth = await Weth9.deploy();
+    return weth
+}
+
+/**
+ * @deprecated Since version 1.3.14. Will be deleted in 3.0.0.
+ */
+
 async function getUniswapV2Factory(beneficiary) {
     ethers = this.ethers;
     let json = require('./.artifacts/UniswapV2Factory.json')
@@ -47,6 +60,11 @@ async function getUniswapV2Factory(beneficiary) {
     factory = await Factory.deploy(beneficiary)
     return factory
 }
+
+/**
+ * @deprecated Since version 1.3.14. Will be deleted in 3.0.0.
+ */
+
 
 async function getUniswapV2Pair(factory, token1, token2) {
     ethers = this.ethers;
@@ -63,14 +81,9 @@ async function getUniswapV2Pair(factory, token1, token2) {
     return pair
 }
 
-async function getWeth9() {
-    ethers = this.ethers;
-    let json = require('./.artifacts/WETH9.json')
-    const [owner] = await ethers.getSigners()
-    Weth9 = await ethers.getContractFactory(json.abi, json.bytecode, owner);
-    weth = await Weth9.deploy();
-    return weth
-}
+/**
+ * @deprecated Since version 1.3.14. Will be deleted in 3.0.0.
+ */
 
 async function getUniswapV2Router(factory, WETH) {
     ethers = this.ethers;
@@ -80,6 +93,10 @@ async function getUniswapV2Router(factory, WETH) {
     router = await Router.deploy(factory, WETH);
     return router
 }
+
+/**
+ * @deprecated Since version 1.3.14. Will be deleted in 3.0.0.
+ */
 
 async function getUniswapV2(beneficiary) {
     weth = await this.getWeth9()
