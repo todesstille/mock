@@ -17,12 +17,6 @@ exports.Mock = class Mock {
         this.getUniswapV2Factory = getUniswapV2Factory
         this.getUniswapV2Pair = getUniswapV2Pair
         this.getUniswapV2Router = getUniswapV2Router
-
-        // Will be deteted soon
-        this.getCompoundV2 = getCompoundV2
-        this.getCompoundTimelockV2 = getCompoundTimelockV2
-        this.getCompoundUnitrollerV2 = getCompoundUnitrollerV2
-
     }
 }
 
@@ -138,7 +132,31 @@ async function getVrfV1(link) {
     return {
         address: coordinator.address,
         coordinator: coordinator,
-        register: async function(hash, fee) {
+        register: async function(network) {
+            switch (network) {
+                case "mainnet":
+                    await this.customRegister("0xAA77729D3466CA35AE8D28B3BBAC7CC36A5031EFDC430821C02BC31A238AF445", "2.0")
+                    break;
+                case "polygon":
+                    await this.customRegister("0xf86195cf7690c55907b2b611ebb7343a6f649bff128701cc542f0569e2c549da", "0.0001");
+                    break;
+                case "mumbai":
+                    await this.customRegister("0x6e75b569a01ef56d18cab6a8e71e6600d6ce853834d4a5748b720d06f878b3a4", "0.0001");
+                    break;
+                case "bnb":
+                    await this.customRegister("0xc251acd21ec4fb7f31bb8868288bfdbaeb4fbfec2df3735ddbd4f7dc8d60103c", "0.2");
+                    break;
+                case "bnb testnet":
+                    await this.customRegister("0xcaf3c3727e033261d383b315559476f48034c13b18f8cafed4d871abe5049186", "0.1");
+                    break;
+                case "goerli":
+                    await this.customRegister("0x0476f9a745b61ea5c0ab224d3a6e4c99f0b02fce4da01143a4f70aa80ae76e8a", "0.1");
+                    break;
+                default:
+                    throw new Error("VRF V1: Chain unsupported")
+            }
+        },
+        customRegister: async function(hash, fee) {
             await this.coordinator.registerProvingKey(await ethers.utils.parseUnits(fee, 18), hash);
         },
         fulfill: async function() {
@@ -152,121 +170,6 @@ async function getVrfV1(link) {
 }
 
 // Compound V2
-
-/**
- * @deprecated Since version 1.3.10. Will be deleted in next version.
- */
-async function getCompoundTimelockV2(admin, delay) {
-    ethers = this.ethers;
-    let json = require('./.artifacts/CompoundV2/Timelock.json')
-    const [owner] = await ethers.getSigners()
-    Timelock = await ethers.getContractFactory(json.abi, json.bytecode, owner)
-    timelock = await Timelock.deploy(admin, delay)
-    return timelock;
-}
-
-/**
- * @deprecated Since version 1.3.10. Will be deleted in next version.
- */
-async function getCompoundUnitrollerV2() {
-    ethers = this.ethers;
-    let json = require('./.artifacts/CompoundV2/Unitroller.json')
-    const [owner] = await ethers.getSigners()
-    Unitroller = await ethers.getContractFactory(json.abi, json.bytecode, owner)
-    unitroller = await Unitroller.deploy()
-    return unitroller;
-}
-
-/**
- * @deprecated Since version 1.3.10. Will be deleted in next version.
- */
-async function getCompoundComptrollerV2() {
-    ethers = this.ethers;
-    let json = require('./.artifacts/CompoundV2/Comptroller.json')
-    const [owner] = await ethers.getSigners()
-    Comptroller = await ethers.getContractFactory(json.abi, json.bytecode, owner)
-    comptroller = await Comptroller.deploy()
-    return comptroller;
-}
-
-/**
- * @deprecated Since version 1.3.10. Will be deleted in next version.
- */
-async function getCompoundOracleMock() {
-    ethers = this.ethers;
-    let json = require('./.artifacts/CompoundV2/CompoundOracleMock.json')
-    const [owner] = await ethers.getSigners()
-    Oracle = await ethers.getContractFactory(json.abi, json.bytecode, owner)
-    oracle = await Oracle.deploy()
-    return oracle;
-}
-
-/**
- * @deprecated Since version 1.3.10. Will be deleted in next version.
- */
-async function getInterestRateModel() {
-    ethers = this.ethers;
-    let json = require('./.artifacts/CompoundV2/WhitePaperInterestRateModel.json')
-    const [owner] = await ethers.getSigners()
-    Interest = await ethers.getContractFactory(json.abi, json.bytecode, owner)
-    interest = await Interest.deploy(0, BigInt("200000000000000000"))
-    return interest;
-}
-
-/**
- * @deprecated Since version 1.3.10. Will be deleted in next version.
- */
-async function getCEther(comptrollerAddress, interestRateModelAddress) {
-    ethers = this.ethers;
-    let json = require('./.artifacts/CompoundV2/CEther.json')
-    const [owner] = await ethers.getSigners()
-    CEther = await ethers.getContractFactory(json.abi, json.bytecode, owner)
-    cEther = await CEther.deploy(comptrollerAddress, interestRateModelAddress, BigInt("200000000000000000000000000"), "Compound Ether", "cEth", 8)
-    return cEther;
-
-}
-
-/**
- * @deprecated Since version 1.3.10. Will be deleted in next version.
- */
-
-async function getCToken(comptrollerAddress, interestRateModelAddress, assetAddress) {
-    ethers = this.ethers;
-    let json = require('./.artifacts/CompoundV2/CErc20.json')
-    const [owner] = await ethers.getSigners()
-    CErc20 = await ethers.getContractFactory(json.abi, json.bytecode, owner)
-    cErc20 = await CErc20.deploy(assetAddress, comptrollerAddress, interestRateModelAddress, BigInt("200000000000000"), "Compound USD Coin", "cUSDC", 8)
-    return cErc20;
-
-}
-
-/**
- * @deprecated Since version 1.3.10. Will be deleted in next version.
- */
-async function getCompoundV2() {
-    const [owner] = await ethers.getSigners()
-    let timelock = await getCompoundTimelockV2(owner.address, 172800)
-    let compProxy = await getCompoundUnitrollerV2()
-    let compImpl = await getCompoundComptrollerV2()
-    let oracle = await getCompoundOracleMock()
-    await compProxy._setPendingImplementation(compImpl.address)
-    await compImpl._become(compProxy.address, oracle.address, BigInt("0x6f05b59d3b20000"), 20, false)
-    let json = require('./.artifacts/CompoundV2/Comptroller.json')
-    let unitroller = await ethers.getContractAt(json.abi, compProxy.address, owner);
-    let interestRate = await getInterestRateModel();
-    let cEther = await getCEther(unitroller.address, interestRate.address)
-    await unitroller._supportMarket(cEther.address)
-    let USDC = await getERC20("USD Coin", "USDC", 6);
-    let cUSDC = await getCToken(unitroller.address, interestRate.address, USDC.address)
-    await unitroller._supportMarket(cEther.address)
-    return {
-        timelock: timelock,
-        unitroller: unitroller,
-        oracle: oracle,
-        cEther: cEther,
-        cUSDC: cUSDC
-    }
-}
 
 async function createCompoundV2() {
     const {createNewCompoundV2} = require('./compoundv2.js');
