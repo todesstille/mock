@@ -5,18 +5,23 @@ exports.Mock = class Mock {
         this.ethers = ethers
 
         this.getERC20 = getERC20
-        this.getUniswapV2 = getUniswapV2
-        this.getUniswapV2Factory = getUniswapV2Factory
-        this.getUniswapV2Pair = getUniswapV2Pair
-        this.getUniswapV2Router = getUniswapV2Router
         this.getWeth9 = getWeth9
         this.getChainlinkPricefeed = getChainlinkPricefeed
         this.getLinkToken = getLinkToken
         this.getVrfV1 = getVrfV1
+        this.createCompoundV2 = createCompoundV2
+
+        // Deprecated, deleted after 3.0
+        this.getUniswapV2 = getUniswapV2
+        this.getUniswapV2Factory = getUniswapV2Factory
+        this.getUniswapV2Pair = getUniswapV2Pair
+        this.getUniswapV2Router = getUniswapV2Router
+
+        // Will be deteted soon
         this.getCompoundV2 = getCompoundV2
         this.getCompoundTimelockV2 = getCompoundTimelockV2
         this.getCompoundUnitrollerV2 = getCompoundUnitrollerV2
-        this.createCompoundV2 = createCompoundV2
+
     }
 }
 
@@ -248,4 +253,10 @@ async function getCompoundV2() {
 async function createCompoundV2() {
     const {createNewCompoundV2} = require('./compoundv2.js');
     return createNewCompoundV2(ethers);
+}
+
+async function createUniswapV2() {
+    const {createNewUniswapV2} = require('./uniswapv2.js');
+    return createNewUniswapV2(ethers);
+
 }
