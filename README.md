@@ -30,6 +30,7 @@ weth = await mock.getWeth9();
 uniswap = await mock.createUniswapV2(weth.address, admin.address)
 ```
 Factory and Router instances are available by uniswap.factory and uniswap.router
+
 To get a new or existent pair:
 ```
 token1 = await mock.getERC20("Token1", "TKN1", 18);
@@ -41,12 +42,18 @@ pair = uniswap.createOrGetPair(token1.address, token2.address)
 link = await mock.getLinkToken();
 coordinator = await mock.getVrfV1(link.address) 
 await coordinator.register("mainnet")
-// registers keyHash for mainnet. Also availabe "polygon", "bnb" etc
+```
+registers keyHash for mainnet. Also availabe "polygon", "bnb" etc
+```
 contract = await Contract.deploy(coordinator.address, link.address) 
-// Deploy your contract. It must implement VRFConsumerBase.sol
+```
+Deploy your contract. It must implement VRFConsumerBase.sol
+```
 amount =  await ethers.utils.parseUnits("2.0", 18)
 await link.transfer(contract.address, amount) // Sent 2 LINK to your contract
 await contract.requestRandomness("0xaa77729d3466ca35ae8d28b3bbac7cc36a5031efdc430821c02bc31a238af445", amount) 
-// Mainnet keyHash for 2 LINK
+```
+Mainnet keyHash for 2 LINK
+```
 await coordinator.fulfill() // Reply from VRF oracle to all unparsed requests
 ```
