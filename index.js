@@ -256,7 +256,7 @@ async function createCompoundV2() {
     return createNewCompoundV2(ethers);
 }
 
-async function createUniswapV2() {
+async function createUniswapV2(weth9Address, feeToAddress) {
     const {createNewUniswapV2} = require('./uniswapv2.js');
-    return createNewUniswapV2(ethers);
+    return createNewUniswapV2(ethers, weth9Address, feeToAddress);
 }
