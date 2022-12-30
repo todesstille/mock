@@ -26,7 +26,7 @@ exports.createNewCompoundV2 = async function createNewCompoundV2(ethers) {
             CEther = await this._ethers.getContractFactory(json.abi, json.bytecode, owner)
             cEther = await CEther.deploy(this.unitroller.address, this.interestRate.address, BigInt("200000000000000000000000000"), "Compound Ether", "cEth", 8)
             await this.unitroller._supportMarket(cEther.address)
-            // need to call _setCollateralFactor
+            await this.unitroller._setCollateralFactor(cEther.address, BigInt("900000000000000000"))
             return cEther;
         
         },
@@ -36,7 +36,7 @@ exports.createNewCompoundV2 = async function createNewCompoundV2(ethers) {
             CErc20 = await this._ethers.getContractFactory(json.abi, json.bytecode, owner)
             cErc20 = await CErc20.deploy(token.address, this.unitroller.address, this.interestRate.address, BigInt("200000000000000"), "Compound " + await token.name(), "c" + await token.symbol(), 8)
             await this.unitroller._supportMarket(cErc20.address)
-            // need to call _setCollateralFactor
+            await this.unitroller._setCollateralFactor(cErc20.address, BigInt("900000000000000000"))
             return cErc20;
         
         }
