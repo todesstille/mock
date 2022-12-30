@@ -5,9 +5,14 @@ exports.createNewCompoundV2 = async function createNewCompoundV2(ethers) {
     let compImpl = await getCompoundComptrollerV2(ethers)
     let oracle = await getCompoundOracleMock(ethers)
     await compProxy._setPendingImplementation(compImpl.address)
-    await compImpl._become(compProxy.address, oracle.address, BigInt("0x6f05b59d3b20000"), 20, false)
+    await compImpl._become(compProxy.address)
+        //, oracle.address, BigInt("0x6f05b59d3b20000"), 20, false)
     let json = require('./.artifacts/CompoundV2/Comptroller.json')
     let unitroller = await ethers.getContractAt(json.abi, compProxy.address, owner);
+    await unitroller._setPriceOracle(oracle.address);
+    await unitroller._setCloseFactor(BigInt("0x6f05b59d3b20000"));
+    await unitroller._setMaxAssets(20);
+    await unitroller._setLiquidationIncentive(await ethers.utils.parseEther("1.0"));
     let interestRate = await getInterestRateModel(ethers);
     return {
         _ethers: ethers,
@@ -21,6 +26,7 @@ exports.createNewCompoundV2 = async function createNewCompoundV2(ethers) {
             CEther = await this._ethers.getContractFactory(json.abi, json.bytecode, owner)
             cEther = await CEther.deploy(this.unitroller.address, this.interestRate.address, BigInt("200000000000000000000000000"), "Compound Ether", "cEth", 8)
             await this.unitroller._supportMarket(cEther.address)
+            // need to call _setCollateralFactor
             return cEther;
         
         },
@@ -30,6 +36,7 @@ exports.createNewCompoundV2 = async function createNewCompoundV2(ethers) {
             CErc20 = await this._ethers.getContractFactory(json.abi, json.bytecode, owner)
             cErc20 = await CErc20.deploy(token.address, this.unitroller.address, this.interestRate.address, BigInt("200000000000000"), "Compound " + await token.name(), "c" + await token.symbol(), 8)
             await this.unitroller._supportMarket(cErc20.address)
+            // need to call _setCollateralFactor
             return cErc20;
         
         }
