@@ -183,6 +183,6 @@ async function createUniswapV2(weth9Address, feeToAddress) {
 }
 
 async function createUniswapV3() {
-    const {createNewUniswapV2} = require('./uniswapv3.js');
+    const {createNewUniswapV3} = require('./uniswapv3.js');
     return createNewUniswapV3(ethers);
 }
