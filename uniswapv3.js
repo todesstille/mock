@@ -1,9 +1,11 @@
-exports.createNewUniswapV3 = async function createNewUniswapV2(ethers) {
+exports.createNewUniswapV3 = async function createNewUniswapV2(ethers, weth9Address) {
     const [owner] = await ethers.getSigners()
     const factory = await getUniswapV3Factory(ethers)
+    const router = await getUniswapV3Router(ethers, factory.address, weth9Address)
     return {
         _ethers: ethers,
         factory: factory,
+        router: router,
         createPool: async function createPool(address1, address2, fee) {
             let json = require('./.artifacts/UniswapV3Pool.json')
             const [owner] = await this._ethers.getSigners()
@@ -48,4 +50,12 @@ async function getUniswapV3Factory(ethers) {
     let Factory = await ethers.getContractFactory(json.abi, json.bytecode, owner);
     let factory = await Factory.deploy()
     return factory
+}
+
+async function getUniswapV3Router(ethers, factoryAddress, WETHAddress) {
+    let json = require('./.artifacts/SwapRouter.json')
+    const [owner] = await ethers.getSigners()
+    let Router = await ethers.getContractFactory(json.abi, json.bytecode, owner);
+    let router = await Router.deploy(factoryAddress, WETHAddress);
+    return router
 }
