@@ -1,4 +1,4 @@
-exports.createNewUniswapV3 = async function createNewUniswapV2(ethers, weth9Address) {
+exports.createNewUniswapV3 = async function createNewUniswapV3(ethers, weth9Address) {
     const [owner] = await ethers.getSigners()
     const factory = await getUniswapV3Factory(ethers)
     const router = await getUniswapV3Router(ethers, factory.address, weth9Address)
