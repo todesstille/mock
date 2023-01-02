@@ -11,6 +11,7 @@ exports.Mock = class Mock {
         this.getVrfV1 = getVrfV1
         this.createCompoundV2 = createCompoundV2
         this.createUniswapV2 = createUniswapV2
+        this.createUniswapV3 = createUniswapV3
 
         // Deprecated, deleted after 3.0
         this.getUniswapV2 = getUniswapV2
@@ -179,4 +180,9 @@ async function createCompoundV2() {
 async function createUniswapV2(weth9Address, feeToAddress) {
     const {createNewUniswapV2} = require('./uniswapv2.js');
     return createNewUniswapV2(ethers, weth9Address, feeToAddress);
+}
+
+async function createUniswapV3() {
+    const {createNewUniswapV2} = require('./uniswapv3.js');
+    return createNewUniswapV3(ethers);
 }
