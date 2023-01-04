@@ -2,10 +2,12 @@ exports.createNewUniswapV3 = async function createNewUniswapV3(ethers, weth9Addr
     const [owner] = await ethers.getSigners()
     const factory = await getUniswapV3Factory(ethers)
     const router = await getUniswapV3Router(ethers, factory.address, weth9Address)
+    const nft = await getUniswapNftFactory(ethers, factory.address, weth9Address)
     return {
         _ethers: ethers,
         factory: factory,
         router: router,
+        nft: nft,
         createPool: async function createPool(address1, address2, fee) {
             let json = require('./.artifacts/UniswapV3Pool.json')
             const [owner] = await this._ethers.getSigners()
@@ -58,4 +60,12 @@ async function getUniswapV3Router(ethers, factoryAddress, WETHAddress) {
     let Router = await ethers.getContractFactory(json.abi, json.bytecode, owner);
     let router = await Router.deploy(factoryAddress, WETHAddress);
     return router
+}
+
+async function getUniswapNftFactory(ethers, factoryAddress, WETHAddress) {
+    let json = require('./.artifacts/NonfungiblePositionManager.json')
+    const [owner] = await ethers.getSigners()
+    let Nft = await ethers.getContractFactory(json.abi, json.bytecode, owner);
+    let nft = await Nft.deploy(factoryAddress, WETHAddress);
+    return nft;
 }
