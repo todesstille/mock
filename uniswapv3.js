@@ -42,6 +42,9 @@ exports.createNewUniswapV3 = async function createNewUniswapV3(ethers, weth9Addr
                 return await this._ethers.getContractAt(json.abi, poolAddress, owner);
             }
         },
+        initializePool: async function initializePool(pool, ratio) {
+            await pool.initialize(ratio);
+        }
 
     }
 }
