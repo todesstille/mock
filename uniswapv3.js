@@ -44,8 +44,18 @@ exports.createNewUniswapV3 = async function createNewUniswapV3(ethers, weth9Addr
         },
         initializePool: async function initializePool(pool, ratio) {
             await pool.initialize(ratio);
+        },
+        defaultAddLiquidity: async function defaultAddLiquidity(pool, amount0, amount1, address) {
+            let tickSpacing = (await pool.tickSpacing());
+            let maxTick = 887272 - (887272 % tickSpacing);
+            let minTick = -maxTick;
+            const blockNumBefore = await this._ethers.provider.getBlockNumber();
+            const blockBefore = await this._ethers.provider.getBlock(blockNumBefore);
+            const timestampBefore = blockBefore.timestamp;
+            let result = await this.nft.callStatic.mint([await pool.token0(), await pool.token1(), await pool.fee(), minTick, maxTick, amount0, amount1, 0, 0, address, timestampBefore + 100]);
+            await this.nft.mint([await pool.token0(), await pool.token1(), await pool.fee(), minTick, maxTick, amount0, amount1, 0, 0, address, timestampBefore + 100]);
+            return result;
         }
-
     }
 }
 
